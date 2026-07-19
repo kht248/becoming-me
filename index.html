@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Becoming Me</title>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     EDIT THIS ONE LINE: paste your Apps Script /exec URL below.
+     If you ever create a NEW deployment (new URL), update it here —
+     nothing else in this wrapper ever changes.
+     ═══════════════════════════════════════════════════════════════ -->
+<script> var APP_URL = 'https://script.google.com/macros/s/AKfycbxMCN7m13dsvDX4YXkNQuk3w_YPxO6CYfUhdgDL9LM5Et5gaCX4LAHPHLKFkCSFqVpW2w/exec'; </script>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#A8B89A">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Becoming Me">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+
+<style>
+  html,body{margin:0;padding:0;height:100%;background:#EEF1E9}
+  @media (prefers-color-scheme: dark){ html,body{background:#1A1E17} }
+  #frame{position:fixed;inset:0;width:100%;height:100%;border:0;display:block}
+  #load{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:14px;background:inherit;transition:opacity .4s;z-index:5}
+  #load.gone{opacity:0;pointer-events:none}
+  #load img{width:72px;height:72px;border-radius:18px}
+  #load .sp{width:22px;height:22px;border:2px solid #C6CEB8;border-top-color:#6E8060;
+    border-radius:50%;animation:sp .7s linear infinite}
+  @keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div id="load"><img src="icon-192.png" alt=""><div class="sp"></div></div>
+<iframe id="frame" allow="fullscreen"></iframe>
+<script>
+  var f = document.getElementById('frame');
+  f.src = APP_URL;
+  f.addEventListener('load', function () {
+    document.getElementById('load').classList.add('gone');
+  });
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+</script>
+</body>
+</html>
