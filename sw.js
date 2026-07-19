@@ -2,7 +2,7 @@
 // icons) so the app is installable and launches instantly. It never
 // touches Apps Script traffic — the Google Sheet stays the single
 // source of truth, exactly as in the main app.
-const CACHE = 'becoming-me-shell-v1';
+const CACHE = 'becoming-me-shell-v2';
 const SHELL = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {

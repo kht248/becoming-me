@@ -7,13 +7,11 @@
 
 <!-- ═══════════════════════════════════════════════════════════════
      EDIT THIS ONE LINE: paste your Apps Script /exec URL below.
-     If you ever create a NEW deployment (new URL), update it here —
-     nothing else in this wrapper ever changes.
      ═══════════════════════════════════════════════════════════════ -->
-<script> var APP_URL = 'https://script.google.com/macros/s/AKfycbxMCN7m13dsvDX4YXkNQuk3w_YPxO6CYfUhdgDL9LM5Et5gaCX4LAHPHLKFkCSFqVpW2w/exec'; </script>
+<script> var APP_URL = 'PASTE_YOUR_EXEC_URL_HERE'; </script>
 
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#A8B89A">
+<meta name="theme-color" content="#E88BB0">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -22,27 +20,51 @@
 <link rel="icon" type="image/png" href="icon-192.png">
 
 <style>
-  html,body{margin:0;padding:0;height:100%;background:#EEF1E9}
-  @media (prefers-color-scheme: dark){ html,body{background:#1A1E17} }
+  html,body{margin:0;padding:0;height:100%;background:#FFF4F1;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
   #frame{position:fixed;inset:0;width:100%;height:100%;border:0;display:block}
   #load{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;
-    justify-content:center;gap:14px;background:inherit;transition:opacity .4s;z-index:5}
+    justify-content:center;gap:16px;background:inherit;transition:opacity .4s;z-index:5;
+    padding:24px;text-align:center}
   #load.gone{opacity:0;pointer-events:none}
   #load img{width:72px;height:72px;border-radius:18px}
-  #load .sp{width:22px;height:22px;border:2px solid #C6CEB8;border-top-color:#6E8060;
+  #load .sp{width:22px;height:22px;border:2px solid #F2DAE2;border-top-color:#C43D74;
     border-radius:50%;animation:sp .7s linear infinite}
   @keyframes sp{to{transform:rotate(360deg)}}
+  #fallback{display:none;flex-direction:column;align-items:center;gap:12px;max-width:320px}
+  #fallback .msg{font-size:13px;line-height:1.6;color:#5C6356}
+  @media (prefers-color-scheme: dark){ #fallback .msg{color:#AEB6A4} }
+  #fallback button{background:#6E8060;color:#fff;border:none;font-size:15px;font-weight:600;
+    padding:14px 28px;border-radius:16px;cursor:pointer}
 </style>
 </head>
 <body>
-<div id="load"><img src="icon-192.png" alt=""><div class="sp"></div></div>
+<div id="load">
+  <img src="icon-192.png" alt="">
+  <div class="sp" id="spin"></div>
+  <div id="fallback">
+    <div class="msg">Taking longer than usual — your browser may be blocking
+      the embedded view. Open directly instead:</div>
+    <button onclick="location.href = APP_URL">Open Becoming Me</button>
+  </div>
+</div>
 <iframe id="frame" allow="fullscreen"></iframe>
 <script>
+  var loaded = false;
   var f = document.getElementById('frame');
   f.src = APP_URL;
   f.addEventListener('load', function () {
+    loaded = true;
     document.getElementById('load').classList.add('gone');
   });
+  // If the frame hasn't rendered in 7s (third-party cookies blocked →
+  // Google sign-in can't run inside an iframe), offer direct navigation.
+  setTimeout(function () {
+    if (!loaded) {
+      document.getElementById('spin').style.display = 'none';
+      document.getElementById('fallback').style.display = 'flex';
+    }
+  }, 7000);
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js');
   }
